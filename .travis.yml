@@ -1,23 +1,6 @@
 language: cpp
 before_script:
-  - sudo apt-get install libboost-test-dev -y
-  - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
-  - sudo apt-get update -qq
+  - echo before script
 
 script:
-  - cmake src
-  - cmake --build .
-  - cmake --build . --target test
-  - cmake --build . --target package
-  - sudo dpkg -i helloworld-*.deb
-  - helloworld_cli
-  - helloworld_cli | grep -qi "hello.*world.*${TRAVIS_BUILD_NUMBER}"
-
-deploy:
-  provider: script
-  skip_cleanup: true
-  script:
-  - >
-    curl -T helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb
-    -umikealexeevotus:$BINTRAY_API_KEY
-    "https://api.bintray.com/content/mikealexeevotus/otus-cpp-lesson1/helloworld/$TRAVIS_BUILD_NUMBER/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+  - echo script
