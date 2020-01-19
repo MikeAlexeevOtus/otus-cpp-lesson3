@@ -2,14 +2,14 @@ import sys
 import random
 
 
-def make_node(key, unique=False):
+def make_node(value, unique=False):
     if unique:
-        # allow equal keys in dict
+        # allow equal values as individual keys in dict
         second_item = random.random()
     else:
         second_item = None
 
-    return key, second_item
+    return value, second_item
 
 
 def insert_ip_parts(ip_parts, ip_tree):
