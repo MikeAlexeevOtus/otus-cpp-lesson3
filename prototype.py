@@ -3,9 +3,14 @@ import random
 from pprint import pprint
 
 
-def make_unique_node(key):
-    # allow equal keys in dict
-    return key, random.random()
+def make_node(key, unique=False):
+    if unique:
+        # allow equal keys in dict
+        second_item = random.random()
+    else:
+        second_item = None
+
+    return key, second_item
 
 
 def insert_ip_as_list(ip_as_list, ip_tree):
@@ -29,18 +34,15 @@ def load_data(file_path):
             line = line.rstrip()
             ip, _, _ = line.split()
             ip_as_list = [int(part) for part in ip.split('.')]
-            ip_as_list[3] = make_unique_node(ip_as_list[3])  # allow dups
-            insert_ip_as_list(ip_as_list, ip_tree)
+            ip_as_nodes_list = [make_node(addr_part) for addr_part in ip_as_list]
+            ip_as_nodes_list[3] = make_node(ip_as_list[3], unique=True) # allow dups
+            insert_ip_as_list(ip_as_nodes_list, ip_tree)
 
     return ip_tree
 
 
 def print_addr(addr_parts):
-    # last part is stored as pair (value, random)
-    # retrieve value
-    addr_parts = list(addr_parts)
-    addr_parts[3] = addr_parts[3][0]
-    print('.'.join(str(b) for b in addr_parts))
+    print('.'.join(str(part[0]) for part in addr_parts))
 
 
 def print_tree_sorted(accumulated_prefixes, ip_tree):
@@ -54,5 +56,12 @@ def print_tree_sorted(accumulated_prefixes, ip_tree):
 
 ip_tree = load_data(sys.argv[1])
 print_tree_sorted([], ip_tree)
-print_tree_sorted([1], ip_tree[1])
-print_tree_sorted([46, 70], ip_tree[46][70])
+print_tree_sorted(
+    [(1, None)],
+    ip_tree[(1, None)]
+)
+
+print_tree_sorted(
+    [(46, None), (70, None)],
+    ip_tree[(46, None)][(70, None)]
+)
