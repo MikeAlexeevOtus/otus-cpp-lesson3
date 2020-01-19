@@ -41,20 +41,23 @@ def load_data(file_path):
     return ip_tree
 
 
-def print_addr(addr_parts):
-    print('.'.join(str(part[0]) for part in addr_parts))
+def print_addr(addr_parts, filter_):
+    addr_parts = [part[0] for part in addr_parts]
+    if not filter_ or filter_(addr_parts):
+        print('.'.join(str(part) for part in addr_parts))
 
 
-def print_tree_sorted(accumulated_prefixes, ip_tree):
+def print_tree_sorted(accumulated_prefixes, ip_tree, filter_=None):
     if not ip_tree:   # leave case
-        print_addr(accumulated_prefixes)
+        print_addr(accumulated_prefixes, filter_)
         return
 
     for prefix, subtree in sorted(ip_tree.items(), reverse=True):
-        print_tree_sorted(accumulated_prefixes + [prefix], subtree)
+        print_tree_sorted(accumulated_prefixes + [prefix], subtree, filter_)
 
 
 ip_tree = load_data(sys.argv[1])
+
 print_tree_sorted([], ip_tree)
 print_tree_sorted(
     [(1, None)],
@@ -65,3 +68,5 @@ print_tree_sorted(
     [(46, None), (70, None)],
     ip_tree[(46, None)][(70, None)]
 )
+
+print_tree_sorted([], ip_tree, lambda addr_parts: any(i==46 for i in addr_parts))
