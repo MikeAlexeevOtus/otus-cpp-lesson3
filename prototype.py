@@ -26,17 +26,16 @@ def insert_ip_as_list(ip_as_list, ip_tree):
     insert_ip_as_list(ip_as_list, ip_tree[prefix])
 
 
-def load_data(file_path):
+def load_data(stream):
     ip_tree = {}
 
-    with open(file_path) as f:
-        for line in f:
-            line = line.rstrip()
-            ip, _, _ = line.split()
-            ip_as_list = [int(part) for part in ip.split('.')]
-            ip_as_nodes_list = [make_node(addr_part) for addr_part in ip_as_list]
-            ip_as_nodes_list[3] = make_node(ip_as_list[3], unique=True) # allow dups
-            insert_ip_as_list(ip_as_nodes_list, ip_tree)
+    for line in stream:
+        line = line.rstrip()
+        ip, _, _ = line.split()
+        ip_as_list = [int(part) for part in ip.split('.')]
+        ip_as_nodes_list = [make_node(addr_part) for addr_part in ip_as_list]
+        ip_as_nodes_list[3] = make_node(ip_as_list[3], unique=True) # allow dups
+        insert_ip_as_list(ip_as_nodes_list, ip_tree)
 
     return ip_tree
 
@@ -56,7 +55,7 @@ def print_tree_sorted(accumulated_prefixes, ip_tree, filter_=None):
         print_tree_sorted(accumulated_prefixes + [prefix], subtree, filter_)
 
 
-ip_tree = load_data(sys.argv[1])
+ip_tree = load_data(sys.stdin)
 
 print_tree_sorted([], ip_tree)
 print_tree_sorted(
