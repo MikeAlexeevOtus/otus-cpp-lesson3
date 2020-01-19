@@ -28,13 +28,14 @@ def load_data(file_path):
     return ip_tree
 
 
-def print_tree_sorted(ip_tree):
-    for byte1, subtrees1 in sorted(ip_tree.items(), reverse=True):
-        for byte2, subtrees2 in sorted(subtrees1.items(), reverse=True):
-            for byte3, subtrees3 in sorted(subtrees2.items(), reverse=True):
-                for byte4, _ in sorted(subtrees3.items(), reverse=True):
-                    print(byte1, byte2, byte3, byte4)
+def print_tree_sorted(accumulated_prefixes, ip_tree):
+    if not ip_tree:   # leave case
+        print('.'.join(str(b) for b in accumulated_prefixes))
+        return
+
+    for prefix, subtree in sorted(ip_tree.items(), reverse=True):
+        print_tree_sorted(accumulated_prefixes + [prefix], subtree)
 
 
 ip_tree = load_data(sys.argv[1])
-print_tree_sorted(ip_tree)
+print_tree_sorted([], ip_tree)
