@@ -58,14 +58,10 @@ def print_tree_sorted(accumulated_prefixes, ip_tree, filter_=None):
 ip_tree = load_data(sys.stdin)
 
 print_tree_sorted([], ip_tree)
-print_tree_sorted(
-    [(1, None)],
-    ip_tree[(1, None)]
-)
+print_tree_sorted([], ip_tree, lambda addr_parts: addr_parts[0] == 1)
 
-print_tree_sorted(
-    [(46, None), (70, None)],
-    ip_tree[(46, None)][(70, None)]
-)
+print_tree_sorted([], ip_tree,
+                  lambda addr_parts: addr_parts[0] == 46 and addr_parts[1] == 70)
 
-print_tree_sorted([], ip_tree, lambda addr_parts: any(i==46 for i in addr_parts))
+print_tree_sorted([], ip_tree,
+                  lambda addr_parts: any(i==46 for i in addr_parts))
