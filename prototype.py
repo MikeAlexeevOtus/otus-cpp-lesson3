@@ -54,3 +54,5 @@ def print_tree_sorted(accumulated_prefixes, ip_tree):
 
 ip_tree = load_data(sys.argv[1])
 print_tree_sorted([], ip_tree)
+print_tree_sorted([1], ip_tree[1])
+print_tree_sorted([46, 70], ip_tree[46][70])
