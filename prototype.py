@@ -1,6 +1,5 @@
 import sys
 import random
-from pprint import pprint
 
 
 def make_node(key, unique=False):
@@ -34,7 +33,9 @@ def load_data(stream):
         ip, _, _ = line.split()
         ip_as_list = [int(part) for part in ip.split('.')]
         ip_as_nodes_list = [make_node(addr_part) for addr_part in ip_as_list]
-        ip_as_nodes_list[3] = make_node(ip_as_list[3], unique=True) # allow dups
+
+        # allow dups
+        ip_as_nodes_list[3] = make_node(ip_as_list[3], unique=True)
         insert_ip_as_list(ip_as_nodes_list, ip_tree)
 
     return ip_tree
@@ -61,7 +62,9 @@ ip_tree = load_data(sys.stdin)
 
 print_tree_sorted(ip_tree)
 print_tree_sorted(ip_tree, lambda addr_parts: addr_parts[0] == 1)
+print_tree_sorted(ip_tree,
+                  lambda addr_parts:
+                  addr_parts[0] == 46 and
+                  addr_parts[1] == 70)
 
-print_tree_sorted(ip_tree, lambda addr_parts: addr_parts[0] == 46 and addr_parts[1] == 70)
-
-print_tree_sorted(ip_tree, lambda addr_parts: any(i==46 for i in addr_parts))
+print_tree_sorted(ip_tree, lambda addr_parts: any(i == 46 for i in addr_parts))
