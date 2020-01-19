@@ -43,11 +43,11 @@ def load_data(stream):
 
 def print_addr(addr_parts, filter_):
     addr_parts = [part[0] for part in addr_parts]
-    if not filter_ or filter_(addr_parts):
+    if filter_(addr_parts):
         print('.'.join(str(part) for part in addr_parts))
 
 
-def print_tree_sorted(ip_tree, filter_=None, accumulated_prefixes=None):
+def print_tree_sorted(ip_tree, filter_, accumulated_prefixes=None):
     accumulated_prefixes = accumulated_prefixes or []
 
     if not ip_tree:   # leave case
@@ -60,7 +60,7 @@ def print_tree_sorted(ip_tree, filter_=None, accumulated_prefixes=None):
 
 ip_tree = load_data(sys.stdin)
 
-print_tree_sorted(ip_tree)
+print_tree_sorted(ip_tree, lambda addr_parts: True)
 print_tree_sorted(ip_tree, lambda addr_parts: addr_parts[0] == 1)
 print_tree_sorted(ip_tree,
                   lambda addr_parts:
