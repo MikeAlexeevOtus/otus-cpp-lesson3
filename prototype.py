@@ -13,16 +13,16 @@ def make_node(value, unique=False):
 
 
 def insert_ip_parts(ip_parts, ip_tree):
-    ip_part = ip_parts.pop(0)
+    prefix = ip_parts.pop(0)
     if not ip_parts:   # terminate tree
-        ip_tree[ip_part] = None
+        ip_tree[prefix] = None
         return
 
     # init branch in tree
-    if ip_part not in ip_tree:
-        ip_tree[ip_part] = {}
+    if prefix not in ip_tree:
+        ip_tree[prefix] = {}
 
-    insert_ip_parts(ip_parts, ip_tree[ip_part])
+    insert_ip_parts(ip_parts, ip_tree[prefix])
 
 
 def load_data(stream):
