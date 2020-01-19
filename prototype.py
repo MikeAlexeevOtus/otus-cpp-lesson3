@@ -61,7 +61,7 @@ def print_tree_sorted(ip_tree, filter_, accumulated_ip_parts=None):
 
 ip_tree = load_data(sys.stdin)
 
-print_tree_sorted(ip_tree, lambda ip_parts: True)
+print_tree_sorted(ip_tree, lambda ip_parts: True)   # print all addresses
 print_tree_sorted(ip_tree, lambda ip_parts: ip_parts[0] == 1)
 print_tree_sorted(ip_tree,
                   lambda ip_parts:
