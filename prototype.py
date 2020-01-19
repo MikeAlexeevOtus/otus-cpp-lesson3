@@ -46,22 +46,22 @@ def print_addr(addr_parts, filter_):
         print('.'.join(str(part) for part in addr_parts))
 
 
-def print_tree_sorted(accumulated_prefixes, ip_tree, filter_=None):
+def print_tree_sorted(ip_tree, filter_=None, accumulated_prefixes=None):
+    accumulated_prefixes = accumulated_prefixes or []
+
     if not ip_tree:   # leave case
         print_addr(accumulated_prefixes, filter_)
         return
 
     for prefix, subtree in sorted(ip_tree.items(), reverse=True):
-        print_tree_sorted(accumulated_prefixes + [prefix], subtree, filter_)
+        print_tree_sorted(subtree, filter_, accumulated_prefixes + [prefix])
 
 
 ip_tree = load_data(sys.stdin)
 
-print_tree_sorted([], ip_tree)
-print_tree_sorted([], ip_tree, lambda addr_parts: addr_parts[0] == 1)
+print_tree_sorted(ip_tree)
+print_tree_sorted(ip_tree, lambda addr_parts: addr_parts[0] == 1)
 
-print_tree_sorted([], ip_tree,
-                  lambda addr_parts: addr_parts[0] == 46 and addr_parts[1] == 70)
+print_tree_sorted(ip_tree, lambda addr_parts: addr_parts[0] == 46 and addr_parts[1] == 70)
 
-print_tree_sorted([], ip_tree,
-                  lambda addr_parts: any(i==46 for i in addr_parts))
+print_tree_sorted(ip_tree, lambda addr_parts: any(i==46 for i in addr_parts))
