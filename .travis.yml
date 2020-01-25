@@ -10,4 +10,10 @@ script:
 deploy:
   provider: script
   skip_cleanup: true
-  script: ./deploy.sh task2 ip_filter
+  script:
+  - >
+    ./deploy.sh
+    task2
+    ip_filter
+    $TRAVIS_BUILD_NUMBER
+    $BINTRAY_API_KEY
