@@ -13,7 +13,7 @@ deploy:
   script:
   - >
     ./deploy.sh
-    otus-cpp-task2
+    task2
     ip_filter
     ${TRAVIS_BUILD_NUMBER}
     ${BINTRAY_API_KEY}
