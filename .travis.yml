@@ -1,6 +1,13 @@
 language: cpp
-before_script:
-  - echo before script
-
 script:
-  - echo script
+  - cmake .
+  - cmake --build .
+  - ./smoke_test.sh ./ip_filter
+  - cmake --build . --target package
+  - sudo dpkg -i ip_filter-*.deb
+  - ./smoke_test.sh ip_filter    # test ip_filter from installed package
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: ./deploy.sh task2 ip_filter
