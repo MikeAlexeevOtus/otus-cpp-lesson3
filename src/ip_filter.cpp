@@ -26,18 +26,14 @@ void print_addr(const IpAddr &addr) {
 }
 
 void print_addr_list(const IpList &ip_list,
-                     std::function<bool(const IpAddr&)> test_function) {
+                     std::function<bool(const IpAddr&)> test_function = nullptr) {
+
     for (auto it = ip_list.cbegin(); it != ip_list.cend(); it++) {
-        if (test_function(*it))
+        if (!test_function || test_function(*it))
             print_addr(*it);
     }
 }
 
-void print_addr_list(const IpList &ip_list) {
-    for (auto it = ip_list.cbegin(); it != ip_list.cend(); it++) {
-        print_addr(*it);
-    }
-}
 
 IpAddr parse_addr(const std::string &addr_str) {
     IpAddr parsed_addr;
