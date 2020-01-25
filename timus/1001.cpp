@@ -22,6 +22,6 @@ int main() {
     read_input(input_values);
 
     for (auto it = input_values.crbegin(); it != input_values.crend(); it++) {
-        std::cout << std::fixed << std::sqrt(*it) << std::endl;
+        std::cout << std::fixed << sqrt(*it) << std::endl;
     }
 }
