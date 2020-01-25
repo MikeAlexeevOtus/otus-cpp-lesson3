@@ -1,6 +1,4 @@
 language: cpp
-before_script:
-  - echo before script
-
 script:
-  - echo script
+  - cmake .
+  - cmake --build .
