@@ -8,8 +8,9 @@ endif()
 project(ip_filter VERSION 0.0.${TRAVIS_BUILD_NUMBER})
 
 add_executable(ip_filter src/ip_filter.cpp)
+add_executable(timus_1001 timus/1001.cpp)
 
-set_target_properties(ip_filter PROPERTIES
+set_target_properties(ip_filter timus_1001 PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
@@ -21,6 +22,7 @@ else ()
 endif()
 
 target_compile_options(ip_filter PRIVATE ${COMPILE_OPTS})
+target_compile_options(timus_1001 PRIVATE ${COMPILE_OPTS})
 
 install(TARGETS ip_filter RUNTIME DESTINATION bin)
 
