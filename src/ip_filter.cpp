@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <array>
 #include <cstdint>
 #include <iostream>
@@ -44,6 +45,8 @@ int main() {
         std::string addr = line.substr(0, line.find(COLS_DELIM));
         ip_list.push_back(parse_addr(addr));
     }
+
+    std::sort(ip_list.begin(), ip_list.end(), std::greater<IpSplitted>());
 
     for (auto it = ip_list.cbegin(); it != ip_list.cend(); it++) {
         print_addr(*it);
