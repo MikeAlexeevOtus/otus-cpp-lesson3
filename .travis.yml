@@ -6,3 +6,14 @@ script:
   - cmake --build . --target package
   - sudo dpkg -i ip_filter-*.deb
   - ./smoke_test.sh ip_filter    # test ip_filter from installed package
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+  - >
+    ./deploy.sh
+    otus-cpp-task2
+    ip_filter
+    ${TRAVIS_BUILD_NUMBER}
+    ${BINTRAY_API_KEY}
