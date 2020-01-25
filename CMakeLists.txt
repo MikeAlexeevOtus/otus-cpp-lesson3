@@ -8,6 +8,8 @@ endif()
 project(ip_filter VERSION 0.0.${TRAVIS_BUILD_NUMBER})
 
 add_executable(ip_filter src/ip_filter.cpp)
+
+add_executable(timus_1000 timus/1000.cpp)
 add_executable(timus_1001 timus/1001.cpp)
 
 set_target_properties(ip_filter timus_1001 PROPERTIES
