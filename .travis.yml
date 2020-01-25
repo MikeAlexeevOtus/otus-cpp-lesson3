@@ -3,3 +3,6 @@ script:
   - cmake .
   - cmake --build .
   - ./smoke_test.sh ./ip_filter
+  - cmake --build . --target package
+  - sudo dpkg -i ip_filter-*.deb
+  - ./smoke_test.sh ip_filter    # test ip_filter from installed package
