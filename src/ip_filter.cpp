@@ -13,7 +13,8 @@ using IpSplitted = std::vector<uint8_t>;
 void print_addr(const IpSplitted &addr) {
     for(auto it = addr.cbegin(); it != addr.cend(); it++) {
         if (it != addr.cbegin()) {
-            std::cout << '.';
+            // prepend with dot starting from the second byte
+            std::cout << ADDR_DELIM;
         }
         std::cout << (int)*it;
     }
@@ -31,8 +32,6 @@ IpSplitted parse_addr(const std::string &addr_str) {
 
         start = stop + 1;
     }
-    std::string part = addr_str.substr(start, stop - start);
-    parsed_addr.push_back(std::stoi(part));
 
     return parsed_addr;
 }
