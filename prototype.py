@@ -1,71 +1,35 @@
 import sys
-import random
-
-
-def make_node(value, unique=False):
-    if unique:
-        # allow equal values as individual keys in dict
-        second_item = random.random()
-    else:
-        second_item = None
-
-    return value, second_item
-
-
-def insert_ip_parts(ip_parts, ip_tree):
-    prefix = ip_parts.pop(0)
-    if not ip_parts:   # terminate tree
-        ip_tree[prefix] = None
-        return
-
-    # init branch in tree
-    if prefix not in ip_tree:
-        ip_tree[prefix] = {}
-
-    insert_ip_parts(ip_parts, ip_tree[prefix])
 
 
 def load_data(stream):
-    ip_tree = {}
+    ips_list = []
 
     for line in stream:
         line = line.rstrip()
         ip, _, _ = line.split()
         ip_as_list = [int(part) for part in ip.split('.')]
-        ip_as_nodes_list = [make_node(addr_part) for addr_part in ip_as_list]
+        ips_list.append(ip_as_list)
 
-        # make 3 element unique to allow dups
-        ip_as_nodes_list[3] = make_node(ip_as_list[3], unique=True)
-        insert_ip_parts(ip_as_nodes_list, ip_tree)
-
-    return ip_tree
+    return ips_list
 
 
-def print_addr(ip_parts, filter_):
-    # drop unique part of nodes
-    ip_parts = [part[0] for part in ip_parts]
-    if filter_(ip_parts):
-        print('.'.join(str(part) for part in ip_parts))
+def print_addr(ip_parts):
+    print('.'.join(str(part) for part in ip_parts))
 
 
-def print_tree_sorted(ip_tree, filter_, accumulated_ip_parts=None):
-    accumulated_ip_parts = accumulated_ip_parts or []
-
-    if not ip_tree:   # leave case
-        print_addr(accumulated_ip_parts, filter_)
-        return
-
-    for ip_part, subtree in sorted(ip_tree.items(), reverse=True):
-        print_tree_sorted(subtree, filter_, accumulated_ip_parts + [ip_part])
+def print_sorted(ips_list, filter_):
+    for ip_as_list in sorted(ips_list, reverse=True):
+        if filter_(ip_as_list):
+            print_addr(ip_as_list)
 
 
-ip_tree = load_data(sys.stdin)
+ips_list = load_data(sys.stdin)
 
-print_tree_sorted(ip_tree, lambda ip_parts: True)   # print all addresses
-print_tree_sorted(ip_tree, lambda ip_parts: ip_parts[0] == 1)
-print_tree_sorted(ip_tree,
-                  lambda ip_parts:
-                  ip_parts[0] == 46 and
-                  ip_parts[1] == 70)
+print_sorted(ips_list, lambda ip_as_list: True)   # print all addresses
+print_sorted(ips_list, lambda ip_as_list: ip_as_list[0] == 1)
+print_sorted(ips_list,
+             lambda ip_as_list:
+             ip_as_list[0] == 46 and
+             ip_as_list[1] == 70)
 
-print_tree_sorted(ip_tree, lambda ip_parts: any(i == 46 for i in ip_parts))
+print_sorted(ips_list, lambda ip_as_list: any(i == 46 for i in ip_as_list))
