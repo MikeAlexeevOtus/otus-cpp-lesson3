@@ -16,7 +16,12 @@ endif()
 add_executable(ip_filter src/ip_filter.cpp)
 
 set(timus_executables)
-foreach(task_number 1000 1001 1785)
+foreach(task_number
+        1000
+        1001
+        1293
+        1785
+        2012)
     add_executable(timus_${task_number} timus/${task_number}.cpp)
     target_compile_options(timus_${task_number} PRIVATE ${COMPILE_OPTS})
     list(APPEND timus_executables timus_${task_number})
