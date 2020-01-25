@@ -14,6 +14,14 @@ set_target_properties(ip_filter PROPERTIES
     CXX_STANDARD_REQUIRED ON
 )
 
+if (MSVC)
+    set(COMPILE_OPTS /W4)
+else ()
+    set(COMPILE_OPTS -Wall -Wextra -pedantic -Werror)
+endif()
+
+target_compile_options(ip_filter PRIVATE ${COMPILE_OPTS})
+
 install(TARGETS ip_filter RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
