@@ -33,6 +33,12 @@ void print_addr_list(const IpList &ip_list,
     }
 }
 
+void print_addr_list(const IpList &ip_list) {
+    for (auto it = ip_list.cbegin(); it != ip_list.cend(); it++) {
+        print_addr(*it);
+    }
+}
+
 IpAddr parse_addr(const std::string &addr_str) {
     IpAddr parsed_addr;
     std::string::size_type start = 0, stop = 0;
@@ -69,7 +75,7 @@ int main() {
 
     std::sort(ip_list.begin(), ip_list.end(), std::greater<IpAddr>());
 
-    print_addr_list(ip_list, [](const IpAddr &ip_addr) { return true; });
+    print_addr_list(ip_list);
     print_addr_list(ip_list, [](const IpAddr &ip_addr) { return ip_addr[0] == 1; });
     print_addr_list(ip_list, [](const IpAddr &ip_addr) { return ip_addr[0] == 46 && ip_addr[1] == 70; });
     print_addr_list(ip_list, [](const IpAddr &ip_addr) { return any_is_equal(ip_addr, 46); });
